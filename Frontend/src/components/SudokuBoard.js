@@ -14,7 +14,7 @@ function SudokuBoard({ puzzle, setPuzzle }) {
         row.map((cell, colIndex) => (
           <input
             key={`${rowIndex}-${colIndex}`}  // Unique key for each cell
-            type="number"
+            type="text"
             value={cell === 0 ? "" : cell}
             onChange={(e) => handleChange(e, rowIndex, colIndex)}
             min="0"
