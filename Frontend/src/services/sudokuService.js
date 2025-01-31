@@ -43,7 +43,7 @@ export const solvePuzzle = async (puzzle) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(puzzle)  // Send puzzle to backend
+            body: JSON.stringify({ puzzle })  // Send puzzle wrapped inside an object
         });
 
         if (response.ok) {
@@ -57,3 +57,4 @@ export const solvePuzzle = async (puzzle) => {
         throw error;
     }
 };
+
