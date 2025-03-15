@@ -1,0 +1,213 @@
+/* Global styles */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+/* Main container */
+.app-container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative; /* Add this to position the theme button relative to the container */
+}
+
+/* Center the Sudoku Board */
+.sudoku-board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  gap: 3px;
+  margin: 20px auto;
+  width: 540px; /* Increased width */
+  height: 380px;
+  padding: 10px;
+  border: 4px solid #333;
+  border-radius: 10px;
+  background-color: white;
+}
+
+/* Sudoku Cell Styling */
+.sudoku-cell {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  border: 1px solid #aaa;
+  outline: none;
+  background-color: #fafafa;
+  transition: background-color 0.3s ease-in-out, color 0.3s;
+}
+
+/* Predefined numbers (Black & Non-editable) */
+.sudoku-cell.predefined {
+  color: black !important;
+  font-weight: bold;
+  background-color: #ddd;
+  pointer-events: none; /* Prevent user interaction */
+}
+
+/* User-filled numbers (Blue & Editable) */
+.sudoku-cell.user-input {
+  color: blue !important;
+  font-weight: bold;
+}
+
+/* Focus effect */
+.sudoku-cell:focus {
+  background-color: #e0f7fa;
+  border-color: #00bcd4;
+}
+
+/* 3x3 Grid Styling */
+.sudoku-cell:nth-child(3n) {
+  border-right: 2px solid black;
+}
+.sudoku-cell:nth-child(27n + 1),
+.sudoku-cell:nth-child(27n + 10),
+.sudoku-cell:nth-child(27n + 19) {
+  border-left: 2px solid black;
+}
+.sudoku-cell:nth-child(n + 19):nth-child(-n + 27),
+.sudoku-cell:nth-child(n + 46):nth-child(-n + 54),
+.sudoku-cell:nth-child(n + 73):nth-child(-n + 81) {
+  border-bottom: 2px solid black;
+}
+.sudoku-cell:nth-child(-n + 9),
+.sudoku-cell:nth-child(n + 28):nth-child(-n + 36),
+.sudoku-cell:nth-child(n + 55):nth-child(-n + 63) {
+  border-top: 2px solid black;
+}
+
+/* Button container */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+}
+
+/* Buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:active {
+  background-color: #388e3c;
+}
+
+/* Message */
+.message {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-top: 10px;
+}
+
+.light {
+  background-color: white;
+  color: black;
+}
+
+.dark {
+  background-color: #282828;
+  color: white;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Light theme for toggle button */
+.theme-toggle.light {
+  color: #333;
+  background-color: #f4f4f4;
+}
+
+/* Dark theme for toggle button */
+.theme-toggle.dark {
+  color: #f4f4f4;
+  background-color: #333;
+}
+
+/* Hover effect */
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Tooltip */
+.theme-toggle::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Show tooltip on hover */
+.theme-toggle:hover::after {
+  opacity: 1;
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .sudoku-board {
+    width: 90vw;
+    height: 90vw;
+  }
+  button {
+    padding: 15px;
+    font-size: 18px;
+  }
+  .app-container {
+    padding: 10px;
+  }
+  .controls {
+    flex-direction: column;
+    align-items: center;
+  }
+  .theme-toggle {
+    top: 10px;
+    right: 10px;
+  }
+}
