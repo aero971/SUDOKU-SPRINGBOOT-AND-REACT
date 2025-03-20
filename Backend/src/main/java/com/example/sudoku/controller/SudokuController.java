@@ -14,16 +14,33 @@ public class SudokuController {
     @Autowired
     private SudokuService sudokuService;
 
+    @GetMapping("/generate")
+    public int[][] generatePuzzle(@RequestParam(defaultValue = "easy") String difficulty) {
+        return sudokuService.generatePuzzle(difficulty);
+    }
+
     @GetMapping("/new")
-    public ResponseEntity<int[][]> getNewPuzzle() {
+    public ResponseEntity<int[][]> getNewPuzzle(@RequestParam(defaultValue = "easy") String difficulty) {
+        System.out.println("Received request with difficulty: " + difficulty); // Log difficulty
         try {
-            int[][] puzzle = sudokuService.generatePuzzle();
+            int[][] puzzle = sudokuService.generatePuzzle(difficulty); // Pass difficulty
             return ResponseEntity.ok(puzzle);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(null); // Handle puzzle generation failure
         }
     }
+
+    @GetMapping("/daily")
+    public ResponseEntity<int[][]> getDailyPuzzle() {
+    try {
+        int[][] puzzle = sudokuService.generateDailyPuzzle();
+        return ResponseEntity.ok(puzzle);
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(null);
+    }
+}
 
     @PostMapping("/validate")
     public ResponseEntity<?> validatePuzzle(@RequestBody SudokuRequest request) {
@@ -50,6 +67,36 @@ public class SudokuController {
         }
     }
 
-    
+    @PostMapping("/hint")
+    public ResponseEntity<int[][]> getHint(@RequestBody HintRequest request) {
+    try {
+        int[][] hintPuzzle = sudokuService.getHint(request.getPuzzle(), request.getOriginalPuzzle());
+        return ResponseEntity.ok(hintPuzzle);
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(null); // Handle hint generation failure
+    }
+}
 
+}
+
+class HintRequest {
+    private int[][] puzzle;
+    private int[][] originalPuzzle;
+
+    public int[][] getPuzzle() {
+        return puzzle;
+    }
+
+    public void setPuzzle(int[][] puzzle) {
+        this.puzzle = puzzle;
+    }
+
+    public int[][] getOriginalPuzzle() {
+        return originalPuzzle;
+    }
+
+    public void setOriginalPuzzle(int[][] originalPuzzle) {
+        this.originalPuzzle = originalPuzzle;
+    }
 }
